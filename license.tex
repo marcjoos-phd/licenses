@@ -1,0 +1,858 @@
+\documentclass[10pt,xcolor=svgnames]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{verbatim}
+\usepackage[tight]{subfigure}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{animate}
+\usepackage{eurosym}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{fancyvrb}
+\usepackage{colortbl}
+\usepackage{minted}
+\usepackage{url}
+
+\usetikzlibrary{shapes,arrows,fit,positioning,chains}
+
+\IfFileExists{libertine.sty}{
+\usepackage{libertine}
+}{\typeout{> Libertine not available!}}
+\IfFileExists{adforn.sty}{
+\usepackage{adforn}
+}{\typeout{> Adforn not available!}}
+
+\include{mypac}
+
+\title[Sharing \& protecting your work]{How to share and protect your work}
+\subtitle{Free licenses for scientists: From Free Softwares to Open Access}
+\author[M. \textsc{Joos}]{{\bf Marc \textsc{Joos}} \\ {\small\texttt{marc.joos@cea.fr}}}
+\date[10/21/2014]{October, 21st 2014}
+\titlegraphic{\vspace{-2em} \raisebox{1.5em}{\includegraphics[width = .15\textwidth]{img/logo_cea}} \hfill \raisebox{2.2em}{\includegraphics[width = .2\textwidth]{img/logo_irfu}} \hfill \raisebox{1.1em}{\includegraphics[width = .15\textwidth]{img/logo_coast_red}} \hfill \includegraphics[width=.2\textwidth]{img/logo_erc} \\[2em] \includegraphics[width=.2\textwidth]{by-nc-sa_eu} \\ {\tiny This work (apart from the logo, \copyright CEA \& \copyright ERC) is licensed under a \\ Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. \\ (\texttt{http://creativecommons.org/licenses/by-nc-sa/4.0/})\\ Freely based and expanded from Teresa Gomez-Diaz work: \\[-.5em] \texttt{http://igm.univ-mlv.fr/{\raise-.8ex\hbox{\~{}}}teresa/logicielsLIGM/documents/Seminaires/2014janvIPSLParis.pdf}}}
+
+\graphicspath{{img/}}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\begin{frame}{Who am I?}
+
+  \begin{block}{What am I doing with my life:}
+    \begin{itemize}
+      \item \empha{Research engineer} at Service d'Astrophysique, CEA
+      \item \empha{High Performance Computing}:
+        \begin{itemize}
+          \item \empha{hybridation} (OpenMP \& OpenACC + MPI)
+          \item \empha{parallel I/O}
+          \item \empha{visualization}
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \animategraphics[autoplay, loop, width=1.1\textwidth]{9}{run_13966/side3d_By_000}{294}{355}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \scriptsize
+      \begin{itemize}
+        \item MHD turbulence in accretion disc
+        \item 800$\times$1600$\times$800 cells
+        \item $\sim$800~000 timesteps
+        \item $\sim10^7$ CPU hours on 32~768 cores
+      \end{itemize}
+
+      \begin{alertblock}{}
+        \begin{center}{\bfseries Disclaimer:}\end{center}
+        
+        \empha{I'm not a lawyer, but I have a strong interest in scientific software development, that's why I got interested in license questions}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+
+\section{Introduction}
+\begin{frame}{Who? Why? How?}
+
+  \begin{block}{Who is concerned? Why?}
+    \begin{itemize}
+      \item \empha{Developers}: to protect and share their work
+      \item \empha{Users}: to fairly use others' work
+      \item \empha{Everyone}: to protect and share their data \& results
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{How to proceed?}
+    Constraints:
+    \begin{itemize}
+      \item research labs
+      \item collaborative work
+      \item different kinds of status
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\section{Legal side \& science policy}
+\subsection{RTFM}
+\begin{frame}{What are copyrights?}
+
+  \begin{block}{Copyrights (in France)}
+    \begin{itemize}
+      \item In the French Law: \empha{Code de la Propriété Intellectuelle}
+      \item Copyrights grants the creator of an original work exclusive rights to its \empha{use} and \empha{distribution}, for a limited time
+      \item The work needs to be \empha{formatted}: ideas or concepts can't be protected
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Two kind of rights (in France)}
+    \begin{itemize}
+      \item \empha{Moral rights} (\emph{droits moraux}):
+        \begin{itemize}
+          \item paternity right (\emph{droit de paternité})
+          \item disclosure right (\emph{droit de divulgation})
+          \item waiver/forfeiture right (\emph{droit de retrait})
+          \item respect/integrity right (\emph{droit au respect de l'\oe{}uvre})
+        \end{itemize}
+      \item \empha{Property rights} (\emph{droits patrimoniaux}):
+        \begin{itemize}
+          \item exploitation rights (performance \& copy)
+          \item you can make money out of them \& transfer them 
+          \item temporary
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{What are \emph{software} copyrights?}
+
+  \begin{block}{Differences with general copyrights:}
+    \begin{itemize}
+      \item Reduced moral rights: only \empha{paternity}
+      \item Unless specified, you cannot:
+        \begin{itemize}
+          \item be opposed to modifications
+          \item use your right to waive/forfeit
+        \end{itemize}
+      \item unless specified, property rights belong to \empha{your employer} (including documentation)
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Property rights:}
+    They can be established depending on:
+    \begin{itemize}
+      \item the authors
+      \item their status and/or collaboration
+      \item the contracts (of employment, command etc.)
+      \item their labs
+    \end{itemize}
+
+    \empha{Important:} trainees supposedly own their property rights, contrary to employees
+  \end{block}
+
+\end{frame}
+
+\subsection{Why and how to use licenses?}
+\begin{frame}{Why and how to use licenses?}
+
+  \vspace{-.5em}
+  \begin{block}{Why?}
+    It gives a legal framework to \empha{protect}:
+    \begin{itemize}
+      \item the \empha{author}
+      \item the \empha{users}: unless specify, using a software is a \empha{counterfeit}!
+      \item the \empha{collaborators}
+    \end{itemize}
+  \end{block}
+
+  \vspace{-.5em}
+  \begin{alertblock}{}
+    \begin{center}\empha{Never} {\bfseries ever release a software without a license!}\end{center}
+  \end{alertblock}
+  \vspace{-.5em}
+
+  \begin{block}{How?}
+    \begin{itemize}
+      \item if specified, follow your employer's policy
+      \item put headers in your source files, with:
+        \begin{itemize}
+          \item name of the file \& of the software
+          \item ``Copyrights'' followed by the owner of the property rights, the year(s), and the people who contributed to this piece of code
+          \item main author(s) \& contact address
+          \item license(s)
+          \item \emph{(optional)} creation/last modification dates
+        \end{itemize}
+      \item put a license file or URL pointing to the license
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\subsection{Licenses \& science}
+\begin{frame}{Licenses \& science: the Berlin Declaration}
+
+  \begin{block}{Encouraging the Open Access Paradigm}
+    ``\emph{Establishing open access as a worthwhile procedure ideally requires the active commitment of each and every individual producer of scientific knowledge and holder of cultural heritage. Open access contributions include \empha{original scientific research results}, \empha{raw data and metadata}, \empha{source materials}, \empha{digital representations of pictorial and graphical materials} and scholarly multimedia material.}''
+
+    \begin{itemize}
+      \item {\small \texttt{http://openaccess.mpg.de/286432/Berlin-Declaration}}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{(French) Signatories:}
+    \begin{itemize}
+      \item CNRS
+      \item CPU
+      \item INRIA
+      \item INRA
+      \item \ldots
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{Licenses \& science: reproducibility}
+
+  \begin{block}{Science has to be reproducible}
+    If we \empha{really} want reproducibility of our results, we must:
+    \begin{itemize}
+      \item \empha{share} our data
+      \item \empha{share} our codes
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Science Code Manifesto}
+    \emph{\scriptsize Software is a cornerstone of science. Without software, twenty-first century science would be impossible. Without better software, science cannot progress.
+
+    But the culture and institutions of science have not yet adjusted to this reality. We need to reform them to address this challenge, by adopting these five principles:
+
+    \begin{itemize}
+      \item[Code]: All source code written specifically to process data for a published paper must be available to the reviewers and readers of the paper.
+      \item[Copyright]: The copyright ownership and license of any released source code must be clearly stated.
+      \item[Citation]: Researchers who use or adapt science source code in their research must credit the code’s creators in resulting publications.
+      \item[Credit]: Software contributions must be included in systems of scientific assessment, credit, and recognition.
+      \item[Curation]: Source code must remain available, linked to related materials, for the useful lifetime of the publication. 
+    \end{itemize}
+    }
+    \begin{itemize}
+      \item {\scriptsize\texttt{http://sciencecodemanifesto.org/}}
+    \end{itemize}
+  \end{block}
+
+
+\end{frame}
+
+\section{Licenses for softwares}
+\subsection{Free licenses}
+\begin{frame}{Free licenses}
+\emph{``Free as in `Freedom'.''} or \emph{``Think of `free speech', not `free beer'.''}
+
+  \begin{block}{4 essentials freedoms:}
+    \begin{itemize}
+      \item[0] \empha{The freedom to run the program}, for any purpose.
+      \item[1] \empha{The freedom to study how the program works, and change it so it does your computing as you wish}. Access to the source code is a precondition for this.
+      \item[2] \empha{The freedom to redistribute copies} so you can help your neighbor.
+      \item[3] \empha{The freedom to distribute copies of your modified versions to others}. By doing this you can give the whole community a chance to benefit from your changes. Access to the source code is a precondition for this.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Keep in mind that:}
+    \begin{itemize}
+      \item a software is \emph{free} because of its \emph{free license}
+      \item a \emph{free software} is not \emph{free of rights}
+      \item a \emph{free software} can be \emph{not gratis}!
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\subsection{Open source licenses}
+\begin{frame}{Open source licenses}
+
+  \begin{block}{Definition}
+    \begin{enumerate}
+      \item Free Redistribution
+      \item Source Code
+      \item Derived Works
+      \item Integrity of The Author's Source Code
+      \item No Discrimination Against Persons or Groups
+      \item No Discrimination Against Fields of Endeavor
+      \item Distribution of License
+      \item License Must Not Be Specific to a Product
+      \item License Must Not Restrict Other Software
+      \item License Must Be Technology-Neutral
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\subsection{Free vs. Open source}
+\begin{frame}{Free vs. Open source}
+
+  \begin{block}{So, what's the difference?}
+    \begin{itemize}
+      \item \empha{Philosophy}: \emph{``free software is a social movement''}, whereas \emph{``open source considers issues in terms of how to make software “better”—in a practical sense only''}
+      \item \empha{In practice}: open source is more permissive and is also \emph{open} to downward spirals:
+        \begin{itemize}
+          \item \textbf{Linux kernel}: contains blob of binary code
+          \item \textbf{Android}: sources of Android 3.x are withheld; Google policy: \emph{``Open source until it matters''}
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{But\ldots}
+    \ldots in most cases, \emph{open source softwares} are \emph{free softwares} anyway
+  \end{block}
+
+  \vspace{1em}
+  {\scriptsize
+    \empha{Sources:}
+    \begin{itemize}
+    \item \url{http://www.gnu.org/philosophy/free-sw.html}
+    \item \url{http://opensource.org/osd}
+    \item \url{http://www.gnu.org/philosophy/open-source-misses-the-point.html}
+    \item \url{http://www.theguardian.com/technology/2011/sep/19/android-free-software-stallman}
+    \end{itemize}
+  }
+\end{frame}
+
+\tikzstyle{every picture}+=[remember picture]
+\subsection{License flavours}
+\begin{frame}[fragile]{License flavours}
+
+    There are 3 main flavours of free/open licenses:
+    \begin{block}{Strong copyleft:}
+      \begin{itemize}
+        \item all derived works inherit the license
+        \item \empha{example}: GNU General Public License (GNU/GPL)
+      \end{itemize}
+    \end{block}
+    
+    \begin{block}{Weak copyleft:}
+      \begin{itemize}
+        \item \textbf{not} all derived works inherit the license
+        \item \empha{example}: GNU Lesser General Public License (GNU/LGPL)
+      \end{itemize}
+    \end{block}
+    
+    \begin{block}{Copyfree:}
+      \begin{itemize}
+        \item you can do \textbf{anything you want} with the program or its source
+        \item \empha{example}: Berkeley Software Distribution License (BSD)
+      \end{itemize}
+    \end{block}
+
+  {\scriptsize
+    \empha{Sources:}
+    \begin{itemize}
+    \item \url{http://www.gnu.org/licenses/gpl-3.0.html}
+    \item \url{http://www.gnu.org/licenses/lgpl-3.0.html}
+    \item \url{https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html}
+    \end{itemize}
+  }
+\end{frame}
+
+\tikzstyle{every picture}+=[remember picture]
+\begin{frame}[fragile]{License flavours}
+
+ \tikzstyle{filebox} = [fill=mycolor, draw, minimum height=5em, , minimum width=8em, text badly centered, text=white, opacity=1.]
+ \tikzstyle{fillbox} = [fill=mycolor, minimum height=5em, , minimum width=8em, text badly centered, text=white, opacity=1.]
+ \tikzstyle{invisiblebox} = [minimum height=5em, minimum width=8em, text=white,opacity=.6,text width=11em]
+ \tikzstyle{dottedbox} = [draw, dotted, minimum height=5em, minimum width=8em, text badly centered, text=white]
+ \tikzstyle{contourbox} = [draw, minimum height=5em, minimum width=8em, text badly centered, text=white]
+
+     \begin{figure}
+       \begin{tikzpicture}[>=latex, thick]
+         \path[use as bounding box] (-1.5,-4) rectangle (12,-1);
+
+         \path node[filebox] (GPL) at (0,0) {\bfseries GPL};
+         \path node[invisiblebox] (GPLinv) {\baselineskip=7.pt
+         \hspace{1.4em} def freeFunc() \{\\
+         \hspace{2.4em} return freeStuff;\\
+         \hspace{1.4em} \}\\
+         \hspace{1.4em} ...};
+
+         \path[->] node[fillbox, below=4em of GPL] (GPLnew) { }
+         (GPL) edge[] (GPLnew); 
+         \path node[invisiblebox, below=4em of GPL] (GPLnewinv) {\baselineskip=7.pt
+           \hspace{1.4em} def freeFunc() \{ \\
+           \hspace{2.4em} return freeStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[fillbox, below=-.1em of GPLnew] (GPLnew2) { };
+         \path node[dottedbox, below=-.1em of GPLnew] (GPLnew2) { };
+         \path node[invisiblebox, below=-.1em of GPLnew] (GPLnewinv2) {\baselineskip=7.pt
+           \hspace{1.4em} def newFunc() \{ \\
+           \hspace{2.4em} return newStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[contourbox, below=4em of GPL, minimum height=9.97em] (contGPL) {\bfseries GPL};
+         \path node[below=.3em of contGPL] {\bfseries strong copyleft};
+
+         \path node[filebox, right=2em of GPL] (LGPL) {\bfseries LGPL};
+         \path node[invisiblebox, right=0em of GPL] (LGPLinv) {\baselineskip=7.pt
+         \hspace{1.4em} def freeFunc() \{\\
+         \hspace{2.4em} return freeStuff;\\
+         \hspace{1.4em} \}\\
+         \hspace{1.4em} ...};
+
+         \path[->] node[fillbox, below=4em of LGPL] (LGPLnew) {\bfseries LGPL}
+         (LGPL) edge[] (LGPLnew); 
+         \path node[invisiblebox, below=4em of LGPL] (LGPLnewinv) {\baselineskip=7.pt
+           \hspace{1.4em} def freeFunc() \{ \\
+           \hspace{2.4em} return freeStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[fillbox, fill=coloritem, below=-.1em of LGPLnew] (LGPLnew2) { };
+         \path node[dottedbox, below=-.1em of LGPLnew] (LGPLnew2) {\bfseries any license};
+         \path node[invisiblebox, below=-.1em of LGPLnew] (LGPLnewinv2) {\baselineskip=7.pt
+           \hspace{1.4em} def newFunc() \{ \\
+           \hspace{2.4em} return newStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[contourbox, below=4em of LGPL, minimum height=9.97em] (contLGPL) { };
+         \path node[below=.3em of contLGPL] {\bfseries weak copyleft};
+
+         \path node[filebox, right=2em of LGPL] (BSD) {\bfseries BSD};
+         \path node[invisiblebox, right=0em of LGPL] (BSDinv) {\baselineskip=7.pt
+         \hspace{1.4em} def freeFunc() \{\\
+         \hspace{2.4em} return freeStuff;\\
+         \hspace{1.4em} \}\\
+         \hspace{1.4em} ...};
+
+         \path[->] node[fillbox, fill=coloritem, below=4em of BSD] (BSDnew) {\bfseries any license}
+         (BSD) edge[] (BSDnew); 
+         \path node[invisiblebox, below=4em of BSD] (BSDnewinv) {\baselineskip=7.pt
+           \hspace{1.4em} def freeFunc() \{ \\
+           \hspace{2.4em} return freeStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[fillbox, fill=coloritem, below=-.1em of BSDnew] (BSDnew2) { };
+         \path node[dottedbox, below=-.1em of BSDnew] (BSDnew2) {\bfseries any license};
+         \path node[invisiblebox, below=-.1em of BSDnew] (BSDnewinv2) {\baselineskip=7.pt
+           \hspace{1.4em} def newFunc() \{ \\
+           \hspace{2.4em} return newStuff; \\
+           \hspace{1.4em} \} \\
+           \hspace{1.4em} ...};
+         \path node[contourbox, below=4em of BSD, minimum height=9.97em] (contBSD) { };
+         \path node[below=.3em of contBSD] {\bfseries copyfree};
+
+         \end{tikzpicture}
+       \end{figure}
+
+\end{frame}
+
+\begin{frame}{License flavours: French variants}
+
+  \begin{block}{CeCILL licenses}
+    \begin{itemize}
+      \item \empha{legal issues}: licenses can be specific to the law of a country and lead to uncertainties in their application in other countries
+      \item \empha{idea}: joint initiative (CEA, CNRS, INRIA) to have free licenses compatible with the French law
+      \item \empha{CeCILL} stands for \empha{Ce}A \empha{C}NRS \empha{I}NRIA \empha{L}ogiciel \empha{L}ibre
+      \item \url{http://www.cecill.info/index.en.html}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{3 flavours:}
+    \begin{itemize}
+      \item \empha{CeCILL}: strong copyleft
+      \item \empha{CeCILL-B}: copyfree
+      \item \empha{CeCILL-C}: weak copyleft
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{Licenses flavours: astrocodes}
+
+  \begin{block}{Which license for which code?}
+    \begin{itemize}
+      \item \empha{\scshape Ramses}: CeCILL
+      \item \empha{\scshape Pluto}: GNU GPL
+      \item \empha{\scshape Athena}: GNU GPL
+      \item \empha{Pencil}: GNU GPL
+      \item \empha{\scshape Enzo}: BSD
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Which license for which library?}
+    \begin{itemize}
+      \item \empha{IDL/astro}: BSD
+      \item \empha{astropy}: BSD
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\subsection{Compability \& inheritance}
+\begin{frame}[fragile]{Compability \& inheritance}
+
+  \begin{block}{It starts to be tricky\ldots}
+    \begin{itemize}
+      \item two licenses can impose different constraints
+      \item some licenses are incompatibles; check:
+        {\scriptsize
+        \begin{itemize}
+          \item \scriptsize\url{http://www.dwheeler.com/essays/floss-license-slide.html}
+          \item \scriptsize\url{http://www.gnu.org/licenses/gpl-faq.html#AllCompatibility}
+        \end{itemize}
+        }
+    \end{itemize}
+  \end{block}
+  \begin{overprint}
+  \onslide<1>
+  \vspace{4em}
+  \tikzstyle{license} = [rounded corners, fill=coloritem, minimum height=2em, minimum width=5.5em, text badly centered, text=white]
+  \begin{figure}
+    \begin{tikzpicture}[>=latex, thick]
+      \path[use as bounding box] (-.5,-4) rectangle (12,-1);
+      \path node[license] (PD) at (0,0) {Public Domain};
+      \path[->] node[license, below right=1em and -4em of PD] (MIT) {MIT}
+      (PD.-90) edge[out=-90, in=90] (MIT.90);
+      \path[->] node[license, below right=1em and -4em of MIT] (BSD) {BSD}
+      (MIT.-90) edge[out=-90, in=90] (BSD.90);
+      \path[->] node[license, below right=1em and -4em of BSD] (Apache) {Apache 2.0}
+      (BSD.-90) edge[out=-90, in=90] (Apache.90);
+      \path[->] node[license, right=2.5em of BSD] (LGPL2) {LGPL v2.1}
+      (BSD.0) edge[] (LGPL2.180);
+      \path[->] node[license, below=1em of LGPL2] (LGPL3) {LGPL v3}
+      (LGPL2.-90) edge[] (LGPL3.90);
+      \path[->] (Apache.0) edge[] (LGPL3.180);
+      \path[->] (BSD.0) edge[] (LGPL3.180);
+      \path[->] node[license, right=2.5em of LGPL2] (GPL2) {GPL v2}
+      (LGPL2.0) edge[] (GPL2.180);
+      \path[->] node[license, below=1em of GPL2] (GPL3) {GPL v3}
+      (GPL2.-90) edge[] (GPL3.90);
+      \path[->] (LGPL3.0) edge[] (GPL3.180);
+      \path[->] node[license, right=2.5em of GPL3] (AGPL3) {AGPL v3}
+      (GPL3.0) edge[] (AGPL3.180);
+
+    \end{tikzpicture}
+  \end{figure}
+  
+  \onslide<2>
+  \begin{block}{Some advices:}
+    \begin{itemize}
+      \item you can use more than one license for a source code
+      \item never change copyrights on a software/source code you get
+      \item if anything is unclear, contact the author
+    \end{itemize}
+  \end{block}
+  \end{overprint}
+
+\end{frame}
+
+\section{Licenses for data \& databases}
+\subsection{Data \& databases: legal matters}
+\begin{frame}{Data \& databases: legal matters}
+
+  \begin{alertblock}{}
+    \begin{center}\textbf{Data} \& \textbf{databases} rise distinct issues regarding copyright\end{center}
+  \end{alertblock}
+
+  \vspace{-2em}
+  \begin{overprint}
+    \onslide<1>
+    \begin{block}{Data: are they copyrightable?}
+      \empha{it depends!}
+      \begin{itemize}
+        \item \empha{\emph{sufficiently creative} data} can be subject to copyright
+        \item \empha{\emph{purely factual} data} cannot be protected by copyright \\ \hspace{-1.5em}{\small\emph{``Facts are not subject to copyright, nor are the ideas underlying copyrighted content''}}
+      \end{itemize}
+    \end{block}
+  
+    \onslide<2>
+    \begin{block}{Databases: it's even worse\ldots}
+      4 components to consider:
+      \begin{itemize}
+        \item the \empha{database model}: copyrightable if original enough
+        \item the \empha{data entry \& output sheets}: same
+        \item the \empha{fieldnames}: same, but less likely (\emph{``name''} or \emph{``id''} are in general not original enough\ldots)
+        \item the \empha{data}
+      \end{itemize}
+    
+      Then, things get complicated, depending on local legislation\ldots
+      \begin{itemize}
+        \item \empha{in the European Union}: \emph{sui generis} database rights:
+          \begin{itemize}
+            \item to benefit from it, need to prove a \emph{substential investment} in the database
+            \item it prevents the unauthorized extraction and reuse of a \emph{significant portion}\empha{*} of the database
+          \end{itemize}
+      \end{itemize}
+
+      {\scriptsize\empha{*}depends on the law in the relevant jurisdiction}
+    \end{block}
+  \end{overprint}
+
+    {\scriptsize
+    \empha{Sources:}
+    \begin{itemize}
+    \item \url{http://wiki.creativecommons.org/Data}
+    \end{itemize}
+    }
+
+\end{frame}
+
+\subsection{Which licenses?}
+\begin{frame}{Which licenses for data \& databases?}
+
+  \begin{block}{Licenses for data}
+    {\small\emph{``A piece of data or content is open if anyone is free to use, reuse, and redistribute it — subject only, at most, to the requirement to attribute and/or share-alike.''}}
+    \begin{itemize}
+      \item Creative Commons:
+        \begin{itemize}
+          \item \empha{BY}: attribution
+          \item \empha{NC}: allow non-commercial use only
+          \item \empha{SA}: share-alike
+          \item \empha{ND}: no derivative
+        \end{itemize}
+    \end{itemize}
+    \hspace{-.5em}{\small you can use linear combination of (almost) any of the above (SA \& ND are exclusive)}
+  \end{block}
+
+  \begin{block}{Licenses for databases}
+    \begin{itemize}
+      \item Open Data Commons
+      \item Creative Commons (since 4.0)
+    \end{itemize}
+  \end{block}
+
+    {\scriptsize
+    \empha{Sources:}
+    \begin{itemize}
+    \item \url{http://wiki.creativecommons.org/Data}
+    \item \url{http://opendefinition.org/licenses/}
+    \item \url{http://opendatacommons.org/licenses/}
+    \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}{Current state of affairs}
+
+  \begin{block}{In Astronomy \& Astrophysics}
+    \empha{World Data System}:
+    {\small
+    \begin{itemize}
+      \item full and open exchange of data, metadata, and products
+      \item shared data, metadata, and products available with minimum time delay and at minimum cost
+      \item encourage use of all shared data, metadata, and products being free of charge, or at no more than cost of reproduction, for research and education purposes
+    \end{itemize}
+    }
+
+    \textbf{Members:}
+    \begin{itemize}
+      \item \empha{Centre de Données Astronomiques de Strasbourg} (CDS)
+      \item \empha{International Virtual Observatory Alliance} (IVOA)
+      \item \empha{Académie des Sciences} \\ \hspace{-2em}but also...
+      \item \empha{Elsevier} (!!!)
+    \end{itemize}
+    
+    {\small Note also that there is \empha{no clear} license on CDS or IVOA data \& databases\ldots}
+
+  \end{block}
+
+    {\scriptsize
+    \empha{Sources:}
+    \begin{itemize}
+      \item \url{http://www.icsu-wds.org/services/data-policy}
+    \end{itemize}
+    }
+
+\end{frame}
+
+\section{Open Access}
+\subsection{The Open Access paradigm in a nutshell}
+\begin{frame}{The Open Access paradigm in a nutshell}
+
+  \begin{block}{A bit of history}
+    \begin{itemize}
+      \item<1->[1991] \empha{\texttt{arXiv.org}}
+      \item<2->[1994] \empha{The Subversive Proposal}, Stevan Harnad
+      \item<3->[2002] \empha{The Budapest Open Access Initiative}
+      \item<4->[2003] \empha{The Bethesda Statement on Open Access Publishing}
+      \item<5->[2003] \empha{The Berlin Declaration}
+    \end{itemize}
+  \end{block}
+
+  \begin{overprint}
+  \onslide<2>
+  \begin{colorblock}{LightGray}{black}{}
+    {\scriptsize\emph{This is a subversive proposal that could radically hasten that day. It is applicable only to ESOTERIC (non-trade, no-market) scientific and scholarly publication (but that is the lion's share of the academic corpus anyway), namely, that body of work for which the author does not and never has expected to SELL the words. The scholarly author wants only to PUBLISH them, that is, to reach the eyes and minds of peers, fellow esoteric scientists and scholars the world over, so that they can build on one another's contributions in that cumulative. collaborative enterprise called learned inquiry.}
+
+      \texttt{https://groups.google.com/forum/?hl=en\#!topic/bit.listserv.vpiej-l/BoKENhK0\_00}}
+  \end{colorblock}
+
+  \onslide<3>
+  \begin{colorblock}{LightGray}{black}{}
+    {\scriptsize\emph{By "open access" to this literature, we mean its \empha{free availability} on the public internet, \empha{permitting any users to read, download, copy, distribute, print, search, or link to the full texts of these articles, crawl them for indexing, pass them as data to software, or use them for any other lawful purpose, without financial, legal, or technical barriers} other than those inseparable from gaining access to the internet itself. The only constraint on reproduction and distribution, and the only role for copyright in this domain, should be to give authors control over the integrity of their work and the right to be properly acknowledged and cited.}
+
+    \texttt{http://www.budapestopenaccessinitiative.org/read}}
+  \end{colorblock}
+
+  \onslide<4>
+  \begin{colorblock}{LightGray}{black}{}
+    {\scriptsize\emph{An Open Access Publication is one that meets the following two conditions:
+        \begin{enumerate}
+        \item The author(s) and copyright holder(s) grant(s) to all users a \empha{free, irrevocable, worldwide, perpetual right of access to, and a license to copy, use, distribute, transmit and display the work publicly and to make and distribute derivative works}, in any digital medium for any responsible purpose, subject to proper attribution of authorship, as well as the right to make small numbers of printed copies for their personal use.
+
+        \item \empha{A complete version of the work and all supplemental materials}, including a copy of the permission as stated above, in a suitable standard electronic format is deposited immediately upon initial publication in at least one online repository [...] that seeks to enable open access, unrestricted distribution, interoperability, and long-term archiving [...].
+        \end{enumerate}
+      }
+
+      \texttt{http://legacy.earlham.edu/\~{}peters/fos/bethesda.htm}}
+  \end{colorblock}
+
+  \onslide<5>
+  \begin{colorblock}{LightGray}{black}{}
+    {\scriptsize\emph{Our mission of disseminating knowledge is only half complete if the information is not made widely and readily available to society. [...] Establishing open access as a worthwhile procedure ideally requires the active commitment of each and every individual producer of scientific knowledge and holder of cultural heritage. \empha{Open access contributions include original scientific research results, raw data and metadata, source materials, digital representations of pictorial and graphical materials and scholarly multimedia material}.}
+
+        \texttt{http://openaccess.mpg.de/Berlin-Declaration}}
+    \end{colorblock}
+  \end{overprint}
+
+\end{frame}
+
+\begin{frame}{The Open Access paradigm in a nutshell}
+
+  \begin{block}{Open Access ``flavors''}
+    \begin{itemize}
+      \item<1-> the classical distinction: {\color{LimeGreen}green} \emph{vs.} {\color{Gold}gold} OA
+        \begin{itemize}
+          \item {\color{LimeGreen}green} refers to self-archiving (like using arXiv, HAL, or anonymous FTP)
+          \item {\color{Gold}gold} refers to journal publishing
+        \end{itemize}
+      \item<2-> the ``freedom'' distinction: \empha{gratis} \emph{vs.} \empha{libre} OA
+        \begin{itemize}
+          \item \empha{gratis} refers to the removal of price barrier alone
+          \item \empha{libre} refers to the removal of price and at least some permission barriers
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \begin{overprint}
+    \onslide<2>
+    \begin{colorblock}{LightGray}{black}{}
+      {\scriptsize\emph{There are two good reasons why [\emph{Open Access}] became ambiguous. Most of our success stories deliver OA in the [\emph{gratis}] sense, while the major public statements from Budapest, Bethesda, and Berlin [...] describe OA in the [\emph{libre}] sense.}
+        
+        Peter Suber, \texttt{http://www.sparc.arl.org/resource/gratis-and-libre-open-access}}
+    \end{colorblock}
+  \end{overprint}
+
+\end{frame}
+
+\subsection{The Open Access in practice: licenses \& fees}
+\begin{frame}{The Open Access in practice: licenses \& fees}
+
+  \textbf{You want to publish in a OA journal\ldots}
+  \begin{columns}
+    \begin{column}{.6\textwidth}
+      \begin{block}{Ask yourself:}
+        \begin{itemize}
+        \item<1-> which license to use?
+        \item<3-> should I release my code, data, \emph{et al.}?
+        \item<4-> what is the fees policy?
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{.4\textwidth}
+      \begin{alertblock}{}
+        {\small
+        To check the policy of your favorite journals:\\}
+        {\scriptsize
+        \texttt{http://www.sherpa.ac.uk/romeo/}}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+
+  \uncover<2->{
+  \textbf{Examples:}
+  \begin{table}
+    \doublerulesepcolor{mycolor}
+    \scriptsize
+    \centerfloat
+    \begin{tabular}{c | c | c | c | c | c | c }
+      license & read & redistribute & data mine & translate & reuse & commercial use \\
+      \hline
+      \hline
+      \cellcolor{mycolor}\color{white}CC-BY & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+      \cellcolor{mycolor}\color{white}CC-BY-NC-ND & \cmark & \cmark & \no & \no & \no & \no \\
+      \cellcolor{mycolor}\color{white}Elsevier & \cmark & \no & \cmark & \cmark & \no & \no \\
+      \hline
+    \end{tabular}
+  \end{table}
+  }
+
+  \uncover<4->{
+    {\scriptsize
+      \begin{columns}
+        \begin{column}{.2\textwidth}
+        \end{column}
+        \begin{column}{.6\textwidth}
+          \begin{block}{\small Fees:}
+            \begin{itemize}
+            \item \empha{OA does not imply necessarly fees!} \uncover<5>{However...}
+            \item<5-> \textbf{Elsevier}: 400-4000 \euro
+            \item<5-> \textbf{Springer}: 2200 \euro
+            \item<5-> \textbf{Oxford Pub.}: 1200-3200 \euro
+            \item<5-> \textbf{PLoS}: 1100-2500 \euro
+            \end{itemize}
+          \end{block}
+        \end{column}
+        \begin{column}{.2\textwidth}
+        \end{column}
+      \end{columns}
+    }
+  }
+
+\end{frame}
+
+\section[]{Conclusions}
+\begin{frame}{Conclusions: you are\ldots}
+
+  \begin{block}{User:}
+    \begin{itemize}
+      \item can you use and/or modify [code, data]?
+      \item is there a free version satisfying your need?
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Developer/producer of data:}
+    \begin{itemize}
+      \item \empha{always} give a license, prior to anything!
+      \item \hspace{0em}[for code] beware of dependencies
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{The guy in charge of a project:}
+    \begin{itemize}
+      \item keep record of anyone contributing to the project
+      \item and take the right decision\ldots
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Contributor:}
+    \begin{itemize}
+      \item \empha{read twice} any copyright agreement you sign
+      \item beware of the law of the relevant jurisdiction
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+\end{document}
